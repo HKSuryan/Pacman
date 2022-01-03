@@ -18,6 +18,8 @@ pygame.display.update()
 icon = pygame.image.load('icon.jpeg')
 pygame.display.set_icon(icon)
 
+# For Presenting text on the screen
+
 
 def text(text, o, p, size, col):
     font = pygame.font.SysFont("algerian", size)
@@ -30,7 +32,7 @@ running = True
 
 def blocks():
     def drawrect(x, y, length, breadth):
-        pygame.draw.rect(screen, red, (x, y, length, breadth))
+        pygame.draw.rect(screen, red, (x, y, length, breadth), 25)
 
     # Left column
     drawrect(50, 50, 250, 50)
@@ -92,7 +94,7 @@ def blocks():
     drawrect(400, 550, 50, 50)
     drawrect(550, 400, 50, 200)
     drawrect(500, 550, 50, 50)
-    drawrect(450, 350, 50, 50)
+    drawrect(450, 450, 50, 50)
     pygame.display.update()
 
 
