@@ -10,6 +10,7 @@ width, height = 950, 950
 background_color = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
+blue = (0, 0, 255)
 
 # Adding icon and caption to the game
 screen = pygame.display.set_mode((width, height))
