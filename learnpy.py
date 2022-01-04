@@ -105,33 +105,107 @@ def blocks():
     pygame.display.update()
 
 
+clock = pygame.time.Clock()
+
+
+walkright = [pygame.image.load('Up_1.png')]
+walkleft = [pygame.image.load('Left_1.png')]
+walk_up = [pygame.image.load('Up_1.png')]
+walk_down = [pygame.image.load('Down_1.png')]
+
+
+class pacman(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+global isjump, vel, x, y, jumpcount, left, up, down, right, walkcount
+walkcount = 0
+left = False
+right = False
+up = False
+down = False
+
+isjump = False
+vel = 5
+x, y = 150, 450
+jumpcount = 10
+
+
+def drawwindow():
+    global walkcount
+    if walkcount + 1 >= 1:
+        walkcount = 1
+    if left:
+        screen.blit(walkleft[0], (x, y))
+        walkcount += 1
+    if right:
+        screen.blit(walkright[0], (x, y))
+        walkcount += 1
+
+    if up:
+        screen.blit(walk_up[0], (x, y))
+        walkcount += 1
+    if down:
+        screen.blit(walk_down[0], (x, y))
+        walkcount += 1
+
+    else:
+        screen.blit(icon, (x, y))
+
+    pygame.display.update()
+
+
 def main(running):
-    blocks()
+    global isjump, vel, x, y, jumpcount, left, up, down, right, walkcount
     isjump = False
     vel = 5
     x, y = 150, 450
     jumpcount = 10
     while running:
+        clock.tick(27)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print("Reached")
                 running = False
-                pygame.quit()
-                exit()
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and x > 50:
             x -= vel
+            left = True
+            right = False
+            up = False
+            down = False
 
-        if keys[pygame.K_RIGHT] and x < 850:
+        elif keys[pygame.K_RIGHT] and x < 850:
             x += vel
+            left = False
+            right = True
+            up = False
+            down = False
+
+        else:
+            left = False
+            right = False
+            up = False
+            down = False
+            walkcount = 0
 
         if not(isjump):
             if keys[pygame.K_DOWN] and y < 850:
                 y += vel
+                left = False
+                right = False
+                up = False
+                down = True
 
             if keys[pygame.K_UP] and y > 50:
                 y -= vel
+                left = False
+                right = False
+                up = True
+                down = False
 
             if keys[pygame.K_SPACE]:
                 isjump = True
@@ -145,11 +219,7 @@ def main(running):
             else:
                 isjump = False
                 jumpcount = 10
-
-        pygame.draw.rect(screen, blue, (x, y, 50, 50))
-        pygame.display.update()
-        pygame.time.delay(200)
-        pygame.draw.rect(screen, background_color, (x, y, 50, 50))
+        drawwindow()
 
 
 main(running)
