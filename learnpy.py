@@ -20,6 +20,7 @@ icon = pygame.image.load('icon.jpeg')
 pygame.display.set_icon(icon)
 
 # For Presenting text on the screen
+# Beginning again
 
 
 def text(text, o, p, size, col):
