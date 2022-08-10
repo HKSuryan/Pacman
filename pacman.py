@@ -31,6 +31,18 @@ def text(text, o, p, size, col):
 running = True
 
 
+class walls(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(blue)
+
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+
+
 def blocks():
     def drawrect(x, y, length, breadth):
         pygame.draw.rect(screen, red, (x, y, length, breadth), 25)
@@ -108,9 +120,10 @@ def blocks():
 def main(running):
     blocks()
     isjump = False
-    vel = 5
+    vel = 10
     x, y = 150, 450
     jumpcount = 10
+
     while running:
 
         for event in pygame.event.get():
@@ -135,21 +148,20 @@ def main(running):
 
             if keys[pygame.K_SPACE]:
                 isjump = True
-        else:
-            if jumpcount >= -10:
-                neg = 1
-                if jumpcount < 0:
-                    neg = -1
-                y -= (jumpcount**2)*0.5*neg
-                jumpcount -= 1
-            else:
-                isjump = False
-                jumpcount = 10
+        if x >= 850:
+            x = 50
+        elif x <= 50:
+            x = 850
+        if y <= 50:
+            y = 850
+        elif y >= 850:
+            y = 50
 
-        pygame.draw.rect(screen, blue, (x, y, 50, 50))
+        moving_rect = pygame.Rect(x, y, 50, 50)
+        pygame.draw.rect(screen, blue, moving_rect)
         pygame.display.update()
         pygame.time.delay(200)
-        pygame.draw.rect(screen, background_color, (x, y, 50, 50))
+        pygame.draw.rect(screen, background_color, moving_rect)
 
 
 main(running)
