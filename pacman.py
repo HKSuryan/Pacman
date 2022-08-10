@@ -123,10 +123,10 @@ def main(running):
         if keys[pygame.K_LEFT] and x > 50:
             x -= vel
 
-        if keys[pygame.K_RIGHT] and x < 850:
+        elif keys[pygame.K_RIGHT] and x < 850:
             x += vel
 
-        if not(isjump):
+        elif not(isjump):
             if keys[pygame.K_DOWN] and y < 850:
                 y += vel
 
