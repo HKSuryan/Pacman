@@ -44,8 +44,10 @@ class walls(pygame.sprite.Sprite):
 
 
 def blocks():
+
     def drawrect(x, y, length, breadth):
-        pygame.draw.rect(screen, red, (x, y, length, breadth), 25)
+        other_rect = pygame.Rect(x, y, length, breadth)
+        pygame.draw.rect(screen, red, other_rect, 25)
 
     # Left column
     drawrect(50, 50, 250, 50)
@@ -150,6 +152,7 @@ def main(running):
                 isjump = True
         if x >= 850:
             x = 50
+            vel = -vel
         elif x <= 50:
             x = 850
         if y <= 50:
