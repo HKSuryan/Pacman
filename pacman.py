@@ -166,9 +166,9 @@ def main(running):
             y = 850
         elif (x == 450 and x < 500) and (y == 850):
             y = 50
-        if (y == 400 and y < 450) and (x == 50):
+        if (y == 450 and y < 500) and (x == 50):
             x = 850
-        elif (y == 400 and y < 450) and (x == 850):
+        elif (y == 450 and y < 500) and (x == 850):
             x = 50
         moving_rect = pygame.Rect(x, y, 50, 50)
         pygame.draw.rect(screen, blue, moving_rect)
