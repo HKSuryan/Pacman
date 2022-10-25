@@ -31,9 +31,23 @@ def text(text, o, p, size, col):
 running = True
 
 
+class walls(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(blue)
+
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+
+
 def blocks():
+
     def drawrect(x, y, length, breadth):
-        pygame.draw.rect(screen, red, (x, y, length, breadth), 25)
+        other_rect = pygame.Rect(x, y, length, breadth)
+        pygame.draw.rect(screen, red, other_rect, 25)
 
     # Left column
     drawrect(50, 50, 250, 50)
@@ -108,9 +122,10 @@ def blocks():
 def main(running):
     blocks()
     isjump = False
-    vel = 5
+    vel = 10
     x, y = 150, 450
     jumpcount = 10
+
     while running:
 
         for event in pygame.event.get():
@@ -123,10 +138,10 @@ def main(running):
         if keys[pygame.K_LEFT] and x > 50:
             x -= vel
 
-        if keys[pygame.K_RIGHT] and x < 850:
+        elif keys[pygame.K_RIGHT] and x < 850:
             x += vel
 
-        if not(isjump):
+        elif not(isjump):
             if keys[pygame.K_DOWN] and y < 850:
                 y += vel
 
@@ -135,21 +150,31 @@ def main(running):
 
             if keys[pygame.K_SPACE]:
                 isjump = True
-        else:
-            if jumpcount >= -10:
-                neg = 1
-                if jumpcount < 0:
-                    neg = -1
-                y -= (jumpcount**2)*0.5*neg
-                jumpcount -= 1
-            else:
-                isjump = False
-                jumpcount = 10
-
-        pygame.draw.rect(screen, blue, (x, y, 50, 50))
+        if x > 850:
+            #x = 50
+            vel = -vel
+        elif x < 50:
+            # x = 850
+            vel = -vel
+        if y < 50:
+            vel = - vel
+            #y = 850
+        elif y > 850:
+            vel = -vel
+            # y = 50
+        if (x == 450 and x < 500) and (y == 50):
+            y = 850
+        elif (x == 450 and x < 500) and (y == 850):
+            y = 50
+        if (y == 450 and y < 500) and (x == 50):
+            x = 850
+        elif (y == 450 and y < 500) and (x == 850):
+            x = 50
+        moving_rect = pygame.Rect(x, y, 50, 50)
+        pygame.draw.rect(screen, blue, moving_rect)
         pygame.display.update()
         pygame.time.delay(200)
-        pygame.draw.rect(screen, background_color, (x, y, 50, 50))
+        pygame.draw.rect(screen, background_color, moving_rect)
 
 
 main(running)
