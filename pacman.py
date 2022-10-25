@@ -150,16 +150,26 @@ def main(running):
 
             if keys[pygame.K_SPACE]:
                 isjump = True
-        if x >= 850:
-            x = 50
+        if x > 850:
+            #x = 50
             vel = -vel
-        elif x <= 50:
-            x = 850
-        if y <= 50:
+        elif x < 50:
+            # x = 850
+            vel = -vel
+        if y < 50:
+            vel = - vel
+            #y = 850
+        elif y > 850:
+            vel = -vel
+            # y = 50
+        if (x == 450 and x < 500) and (y == 50):
             y = 850
-        elif y >= 850:
+        elif (x == 450 and x < 500) and (y == 850):
             y = 50
-
+        if (y == 400 and y < 450) and (x == 50):
+            x = 850
+        elif (y == 400 and y < 450) and (x == 850):
+            x = 50
         moving_rect = pygame.Rect(x, y, 50, 50)
         pygame.draw.rect(screen, blue, moving_rect)
         pygame.display.update()
