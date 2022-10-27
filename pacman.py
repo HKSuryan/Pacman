@@ -37,7 +37,7 @@ class game:
         self.image.blit(image_to_load, (0, 0))'''
         self.running = True
         self.screen = pygame.display.set_mode((width, height))
-        self.clock = pygame.time.clock()
+        self.clock = pygame.time.Clock()
         pygame.display.set_caption("PACMAN")
         pygame.display.update()
         self.icon = pygame.image.load('icon.jpeg')
@@ -50,7 +50,7 @@ class game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
-        self.player = Player()
+        self.player = Player(self, 1, 2)
         self.attacks = pygame.sprite.LayeredUpdates()
 
     def text(self, text, o, p, size, col):
@@ -132,6 +132,31 @@ class game:
         self.drawrect(450, 450, 50, 50)
         pygame.display.update()
 
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.playing = False
+                self.running = False
+
+    def update(self):
+        self.all_sprites.update()
+
+    def draw(self):
+        self.screen.fill(BLACK)
+        self.all_sprites.draw(self.screen)
+        self.clock.tick(FPS)
+        pygame.display.update()
+
+    def main(self):
+        while self.playing:
+            self.events()
+            self.update()
+            self.draw()
+        self.running = False
+
+    def gameover(self):
+        pass
+
 
 class walls(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -145,74 +170,12 @@ class walls(pygame.sprite.Sprite):
         self.rect.x = x
 
 
-class player(pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.game = game
-        self._layer = PLAYER_LAYER
-        self.groups = self.game.all_sprites
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.image = self.game.character_spritesheet.get_sprite(3, 2, 32, 32)
+g = game()
+g.new()
+while g.running:
 
-
-def main(running):
-    A = game()
-    A.blocks()
-    isjump = False
-    vel = 10
-    x, y = 150, 450
-    jumpcount = 10
-
-    while running:
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                print("Reached")
-                running = False
-                pygame.quit()
-                exit()
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and x > 50:
-            x -= vel
-
-        elif keys[pygame.K_RIGHT] and x < 850:
-            x += vel
-
-        elif not(isjump):
-            if keys[pygame.K_DOWN] and y < 850:
-                y += vel
-
-            if keys[pygame.K_UP] and y > 50:
-                y -= vel
-
-            if keys[pygame.K_SPACE]:
-                isjump = True
-        if x > 850:
-            #x = 50
-            vel = -vel
-        elif x < 50:
-            # x = 850
-            vel = -vel
-        if y < 50:
-            vel = - vel
-            #y = 850
-        elif y > 850:
-            vel = -vel
-            # y = 50
-        if (x == 450 and x < 500) and (y == 50):
-            y = 850
-        elif (x == 450 and x < 500) and (y == 850):
-            y = 50
-        if (y == 450 and y < 500) and (x == 50):
-            x = 850
-        elif (y == 450 and y < 500) and (x == 850):
-            x = 50
-        moving_rect = pygame.Rect(x, y, 50, 50)
-        pygame.draw.rect(A.screen, blue, moving_rect)
-        pygame.display.update()
-        pygame.time.delay(200)
-        pygame.draw.rect(A.screen, background_color, moving_rect)
-
-
-running = True
-main(running)
+    g.main()
+    g.blocks()
+    pygame.display.update()
+    g.gameover()
 pygame.quit()
