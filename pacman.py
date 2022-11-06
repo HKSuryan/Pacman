@@ -157,6 +157,9 @@ class game:
     def gameover(self):
         pass
 
+    def intro_screen(self):
+        pass
+
 
 class walls(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -171,6 +174,7 @@ class walls(pygame.sprite.Sprite):
 
 
 g = game()
+g.intro_screen()
 g.new()
 while g.running:
 
