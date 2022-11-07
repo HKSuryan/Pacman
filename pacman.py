@@ -9,24 +9,13 @@ import sys
 pygame.init()
 
 
-width, height = 950, 950
+width, height = 750, 570
 
 background_color = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
 blue = (0, 0, 255)
 Black = (0, 0, 0)
-
-
-class Spritesheet:
-    def __init__(self, file):
-        self.sheet = pygame.image.load(file).convert()
-
-    def get_sprite(self, x, y, width, height):
-        sprite = pygame.Surface([width, height])
-        sprite.blit(self.sheet, (0, 0), (x, y, width, height))
-        sprite.set_colorkey(Black)
-        return sprite
 
 
 class game:
