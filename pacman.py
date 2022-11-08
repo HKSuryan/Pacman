@@ -22,9 +22,6 @@ class game:
 
     def __init__(self):
         pygame.init()
-        '''image_to_load = pygame.image.load("walls.jpg.webp")
-        self.running = True
-        self.image.blit(image_to_load, (0, 0))'''
         self.running = True
 
         self.screen = pygame.display.set_mode((width, height))
@@ -34,7 +31,7 @@ class game:
         self.icon = pygame.image.load('icon.jpeg')
         pygame.display.set_icon(self.icon)
 
-        self.character_spritesheet = Spritesheet('img.png')
+        self.character_spritesheet = Spritesheet('pacsp.png')
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
 
     def createTilemap(self):

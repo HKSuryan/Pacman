@@ -1,3 +1,4 @@
+from turtle import width
 import pygame
 from config import *
 import math
@@ -11,7 +12,7 @@ class Spritesheet:
     def get_sprite(self, x, y, height, width):
         sprite = pygame.Surface([width, height])
         sprite.blit(self.sheet, (0, 0), (x, y, width, height))
-        sprite.set_colorkey(BLACK)
+        sprite.set_colorkey(WHITE)
         return sprite
 
 
@@ -29,7 +30,9 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'down'
 
         self.image = self.game.character_spritesheet.get_sprite(
-            119, 183, self.width, self.height)
+            756, 127, self.width, self.height)
+
+        self.image.set_colorkey(WHITE)
 
         # elf.image.fill(RED)
         self.x_change = 0
@@ -42,7 +45,10 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.movement()
         self.rect.x += self.x_change
+        self.collide_blocks('x')
         self.rect.y += self.y_change
+        self.collide_blocks('y')
+
         self.x_change = 0
         self.y_change = 0
 
@@ -60,6 +66,23 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
+
+    def collide_blocks(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            if hits:
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left-self.rect.width
+                if self.x_change < 0:
+                    self.rect.x = hits[0].rect.right
+
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            if hits:
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top-self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
 
 
 class Block(pygame.sprite.Sprite):
