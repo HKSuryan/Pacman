@@ -12,7 +12,7 @@ class Spritesheet:
     def get_sprite(self, x, y, height, width):
         sprite = pygame.Surface([width, height])
         sprite.blit(self.sheet, (0, 0), (x, y, width, height))
-        sprite.set_colorkey(WHITE)
+        sprite.set_colorkey(BLACK)
         return sprite
 
 
@@ -31,6 +31,8 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.game.character_spritesheet.get_sprite(
             756, 127, self.width, self.height)
+        # self.image = self.game.character_spritesheet.get_sprite(
+        # 336, 503, self.width, self.height)
 
         self.image.set_colorkey(WHITE)
 
@@ -98,7 +100,27 @@ class Block(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         self.image = self.game.terrain_spritesheet.get_sprite(
-            324, 33, self.width, self.height)
+            336, 44, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+
+class Walls(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.terrain_spritesheet.get_sprite(
+            40, 138, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x

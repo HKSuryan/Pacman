@@ -24,7 +24,8 @@ class game:
         pygame.init()
         self.running = True
 
-        self.screen = pygame.display.set_mode((width, height))
+        self.screen = pygame.display.set_mode(
+            (width, height), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("PACMAN")
         pygame.display.update()
@@ -41,6 +42,8 @@ class game:
                     Block(self, j, i)
                 if column == "P":
                     Player(self, j, i)
+                if column == "L":
+                    Walls(self, j, i)
 
     def new(self):
 
@@ -90,25 +93,13 @@ class game:
         pass
 
 
-class walls(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = pygame.Surface([width, height])
-        self.image.fill(blue)
-
-        self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
-
-
 g = game()
 g.intro_screen()
 g.new()
 while g.running:
 
     g.main()
-    g.blocks()
+
     pygame.display.update()
     g.gameover()
 pygame.quit()
