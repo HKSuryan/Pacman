@@ -32,7 +32,8 @@ class game:
         self.icon = pygame.image.load('icon.jpeg')
         pygame.display.set_icon(self.icon)
 
-        self.character_spritesheet = Spritesheet('pacsp.png')
+        #self.character_spritesheet = Spritesheet('pacsp.png')
+        self.character_spritesheet = Spritesheet('pac_sprites.png')
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
 
     def createTilemap(self):

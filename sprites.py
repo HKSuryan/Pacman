@@ -27,7 +27,8 @@ class Player(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        self.facing = 'down'
+        self.facing = 'left'
+        self.animation_loop = 1
 
         self.image = self.game.character_spritesheet.get_sprite(
             756, 127, self.width, self.height)
@@ -46,6 +47,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.movement()
+        self.animate()
         self.rect.x += self.x_change
         self.collide_blocks('x')
         self.rect.y += self.y_change
@@ -86,6 +88,67 @@ class Player(pygame.sprite.Sprite):
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
 
+    def animate(self):
+        down_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
+                           self.game.character_spritesheet.get_sprite(
+                               92, 81, self.width, self.height),
+                           self.game.character_spritesheet.get_sprite(137, 80, self.width, self.height)]
+
+        up_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
+                         self.game.character_spritesheet.get_sprite(
+                             94, 40, self.width, self.height),
+                         self.game.character_spritesheet.get_sprite(136, 42, self.width, self.height)]
+
+        left_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
+                           self.game.character_spritesheet.get_sprite(
+                               48, 40, self.width, self.height),
+                           self.game.character_spritesheet.get_sprite(48, 84, self.width, self.height)]
+
+        right_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
+                            self.game.character_spritesheet.get_sprite(
+                                0, 40, self.width, self.height),
+                            self.game.character_spritesheet.get_sprite(0, 84, self.width, self.height)]
+
+        if self.facing == "up":
+            if self.y_change == 0:
+                self.image = self.game.character_spritesheet.get_sprite(
+                    0, 0, self.width, self.height)
+            else:
+                self.image = up_animations[math.floor(self.animation_loop)]
+                self.animation_loop += 0.1
+                if self.animation_loop >= 3:
+                    self.animation_loop = 1
+
+        if self.facing == "down":
+            if self.y_change == 0:
+                self.image = self.game.character_spritesheet.get_sprite(
+                    0, 0, self.width, self.height)
+            else:
+                self.image = down_animations[math.floor(self.animation_loop)]
+                self.animation_loop += 0.1
+                if self.animation_loop >= 3:
+                    self.animation_loop = 1
+
+        if self.facing == "left":
+            if self.x_change == 0:
+                self.image = self.game.character_spritesheet.get_sprite(
+                    0, 0, self.width, self.height)
+            else:
+                self.image = left_animations[math.floor(self.animation_loop)]
+                self.animation_loop += 0.1
+                if self.animation_loop >= 3:
+                    self.animation_loop = 1
+
+        if self.facing == "right":
+            if self.x_change == 0:
+                self.image = self.game.character_spritesheet.get_sprite(
+                    0, 0, self.width, self.height)
+            else:
+                self.image = right_animations[math.floor(self.animation_loop)]
+                self.animation_loop += 0.1
+                if self.animation_loop >= 3:
+                    self.animation_loop = 1
+
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -125,3 +188,6 @@ class Walls(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+
+# class Enemies(pygame.sprite.Sprite)
