@@ -14,7 +14,7 @@ WHITE = (255, 255, 255)
 FPS = 60
 
 tilemap = [
-    'LLLLLLLLLLLLLLLLLLLLLLLLL',
+    'LLLLLLLLLDLLLLLLLLLLLLLLL',
     'LBBBBB..B.B..BBBBBL.....L',
     'LBE..B..B.B..BE..BL.....L',
     'LB.B.B..B.B..B.B.BL.....L',
@@ -23,7 +23,7 @@ tilemap = [
     'L.................L.....L',
     'L....B.BBBBB.B....L.....L',
     'LBBB.B.B.E.B.B.BBBL.....L',
-    'L.P..B.B.B.B.B....L.....L',
+    'D.P..B.B.B.B.B....D.....L',
     'LBBB.B.B...B.B.BBBL.....L',
     'L....B.BB.BB.B....L.....L',
     'L.................L.....L',
@@ -32,5 +32,5 @@ tilemap = [
     'LB.B.B..B.B..B.B.BL.....L',
     'LBE..B..B.B..BE..BL.....L',
     'LBBBBB..B.B..BBBBBL.....L',
-    'LLLLLLLLLLLLLLLLLLLLLLLLL'
+    'LLLLLLLLLDLLLLLLLLLLLLLLL'
 ]

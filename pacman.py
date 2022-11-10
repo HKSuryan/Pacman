@@ -32,7 +32,7 @@ class game:
         self.icon = pygame.image.load('icon.jpeg')
         pygame.display.set_icon(self.icon)
 
-        #self.character_spritesheet = Spritesheet('pacsp.png')
+        self.enemy_spritesheet = Spritesheet('pacsp.png')
         self.character_spritesheet = Spritesheet('pac_sprites.png')
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
 
@@ -45,6 +45,8 @@ class game:
                     Player(self, j, i)
                 if column == "L":
                     Walls(self, j, i)
+                if column == "E":
+                    Enemy(self, j, i)
 
     def new(self):
 
