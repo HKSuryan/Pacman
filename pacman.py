@@ -56,7 +56,12 @@ class game:
                     Coins(self, j, i)
                 if column == "D":
                     Door(self,i,j)
-
+    def help(self):
+        self.playing = True
+        self.player = pygame.sprite.LayeredUpdates()
+        Player(self,400,300)
+        print("Hello")
+        pygame.display.update()
     def new(self):
 
         self.playing = True
