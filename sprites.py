@@ -211,11 +211,12 @@ class Enemy(pygame.sprite.Sprite):
 
         self.x_change = 0
         self.y_change = 0
-        self.facing = random.choice(['left', 'right', 'up', 'down'])
+        #self.facing = random.choice(['left', 'right', 'up', 'down'])
+        self.facing = 'left'
         self.animation_loop = 1
         self.movement_loop = 0
-        self.max_travel = random.randint(7, 30)
-
+        self.max_travel_x = random.randint(15, 30)
+        self.max_travel_y = random.randint(15, 30)
         self.image = self.game.enemy_spritesheet.get_sprite(
             32, 41, self.width, self.height)
         self.image.set_colorkey(BLACK)
@@ -236,23 +237,23 @@ class Enemy(pygame.sprite.Sprite):
         if self.facing == 'left':
             self.x_change -= ENEMY_SPEED
             self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel:
-                self.facing = 'right'
+            if self.movement_loop <= -self.max_travel_x:
+                self.facing = 'up'
 
         if self.facing == 'right':
             self.x_change += ENEMY_SPEED
             self.movement_loop += 1
-            if self.movement_loop >= self.max_travel:
-                self.facing = 'left'
+            if self.movement_loop >= self.max_travel_x:
+                self.facing = 'down'
 
         if self.facing == 'up':
             self.y_change -= ENEMY_SPEED
             self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel:
-                self.facing = 'down'
+            if self.movement_loop <= -self.max_travel_y:
+                self.facing = 'right'
 
         if self.facing == 'down':
             self.y_change += ENEMY_SPEED
             self.movement_loop += 1
-            if self.movement_loop >= self.max_travel:
-                self.facing = 'up'
+            if self.movement_loop >= self.max_travel_y:
+                self.facing = 'left'
