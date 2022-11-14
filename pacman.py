@@ -35,6 +35,7 @@ class game:
         self.enemy_spritesheet = Spritesheet('pacsp.png')
         self.character_spritesheet = Spritesheet('pac_sprites.png')
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
+        self.intro_background = pygame.image.load('images.jpeg')
 
     def createTilemap(self):
         for i, row in enumerate(tilemap):
@@ -54,7 +55,7 @@ class game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
-
+        self.walls = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 
@@ -93,7 +94,25 @@ class game:
         pass
 
     def intro_screen(self):
-        pass
+        intro = True
+        play_button = Button(50, 50, 100, 50, WHITE, BLACK, 'PLAY', 32)
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    intro = False
+                    self.running = False
+
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
+
+            if play_button.is_pressed(mouse_pos, mouse_pressed):
+                intro = False
+
+            self.screen.blit(self.intro_background, (375, 240))
+            # self.screen.blit(title,title_rect)
+            self.screen.blit(play_button.image, play_button.rect)
+            self.clock.tick(FPS)
+            pygame.display.update()
 
 
 g = game()
