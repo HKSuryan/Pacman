@@ -1,10 +1,11 @@
 WIN_WIDTH = 750
 WIN_HEIGHT = 570
 
-PLAYER_LAYER = 3
+PLAYER_LAYER = 4
 ENEMY_LAYER = 2
 BLOCK_LAYER = 1
 GROUND_LAYER = 1
+COIN_LAYER = 3
 TILESIZE = 30
 ENEMY_SPEED = 2
 PLAYER_SPEED = 2
@@ -23,15 +24,15 @@ tilemap = [
     'LBB.BB.BBBBB.BB.BBL.....L',
     'L.................L.....L',
     'L....B.BBBBB.B....L.....L',
-    'LBBB.B.B.E.B.B.BBBL.....L',
-    'D.P..B.B.B.B.B....D.....L',
-    'LBBB.B.B...B.B.BBBL.....L',
+    'LBBB.B.BCECB.B.BBBL.....L',
+    'D.P..B.BCBCB.B....D.....L',
+    'LBBB.B.BC.CB.B.BBBL.....L',
     'L....B.BB.BB.B....L.....L',
     'L.................L.....L',
     'LBB.BB.BBBBB.BB.BBL.....L',
     'LB...B.......B...BL.....L',
-    'LB.B.B..B.B..B.B.BL.....L',
-    'LBE..B..B.B..BE..BL.....L',
+    'LB.B.B..B.B..BCBCBL.....L',
+    'LBECCB..B.B..BECCBL.....L',
     'LBBBBB..B.B..BBBBBL.....L',
     'LLLLLLLLLDLLLLLLLLLLLLLLL'
 ]

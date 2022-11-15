@@ -35,6 +35,7 @@ class game:
         self.enemy_spritesheet = Spritesheet('pacsp.png')
         self.character_spritesheet = Spritesheet('pac_sprites.png')
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
+        self.coin_spritesheet = Spritesheet('pacsp.png')
         self.intro_background = pygame.image.load('images.jpeg')
         self.go_background = pygame.image.load('images.jpeg')
 
@@ -49,6 +50,8 @@ class game:
                     Walls(self, j, i)
                 if column == "E":
                     Enemy(self, j, i)
+                if column == "C":
+                    Coins(self, j, i)
 
     def new(self):
 
@@ -58,6 +61,7 @@ class game:
         self.enemies = pygame.sprite.LayeredUpdates()
         self.walls = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
+        self.coins = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 
     def text(self, text, o, p, size, col):
