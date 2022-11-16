@@ -30,9 +30,9 @@ tilemap = [
     'L....B.BB.BB.B....L.....L',
     'L.................L.....L',
     'LBB.BB.BBBBB.BB.BBL.....L',
-    'LB...B.......B...BL.....L',
+    'LBE..B.......BE..BL.....L',
     'LB.B.B..B.B..BCBCBL.....L',
-    'LBECCB..B.B..BECCBL.....L',
+    'LB.CCB..B.B..B.CCBL.....L',
     'LBBBBB..B.B..BBBBBL.....L',
     'LLLLLLLLLDLLLLLLLLLLLLLLL'
 ]

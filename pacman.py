@@ -37,7 +37,7 @@ class game:
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
         self.coin_spritesheet = Spritesheet('pacsp.png')
         self.intro_background = pygame.image.load('images.jpeg')
-        self.go_background = pygame.image.load('images.jpeg')
+        self.go_background = pygame.image.load('endscreen1.jpeg')
 
     def createTilemap(self):
         for i, row in enumerate(tilemap):
@@ -115,7 +115,8 @@ class game:
             if restart_button.is_pressed(mouse_pos, mouse_pressed):
                 self.new()
                 self.main()
-            self.screen.blit(self.go_background, (0, 0))
+            #self.screen.blit(self.go_background, (0, 0))
+            self.screen.fill(BLACK)
             self.screen.blit(text, text_rect)
             self.screen.blit(restart_button.image, restart_button.rect)
             self.clock.tick(FPS)

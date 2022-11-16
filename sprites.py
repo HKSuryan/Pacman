@@ -213,14 +213,15 @@ class Enemy(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        self.x_change = 0
-        self.y_change = 0
+        self.x_change = 0.25
+        self.y_change = 0.25
         #self.facing = random.choice(['left', 'right', 'up', 'down'])
-        self.facing = 'left'
+        self.facing = 'right'
         self.animation_loop = 1
-        self.movement_loop = 0
-        self.max_travel_x = random.randint(15, 30)
-        self.max_travel_y = random.randint(15, 30)
+        self.movement_loop_x = 0
+        self.movement_loop_y = 0
+        self.max_travel_x = 90
+        self.max_travel_y = 90
         self.image = self.game.enemy_spritesheet.get_sprite(
             32, 41, self.width, self.height)
         self.image.set_colorkey(BLACK)
@@ -231,38 +232,36 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         self.movement()
-        #self.rect.x += self.x_change
-        #self.rect.y += self.y_change
         self.rect.x += self.x_change
         self.collide_blocks('x')
         self.rect.y += self.y_change
         self.collide_blocks('y')
-        self.x_change = 0
-        self.y_change = 0
+        self.x_change = 0.25
+        self.y_change = 0.25
 
     def movement(self):
         if self.facing == 'left':
             self.x_change -= ENEMY_SPEED
-            self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel_x:
+            self.movement_loop_x -= 1
+            if self.movement_loop_x <= -self.max_travel_x:
                 self.facing = 'up'
 
-        if self.facing == 'right':
+        elif self.facing == 'right':
             self.x_change += ENEMY_SPEED
-            self.movement_loop += 1
-            if self.movement_loop >= self.max_travel_x:
+            self.movement_loop_x += 1
+            if self.movement_loop_x >= self.max_travel_x:
                 self.facing = 'down'
 
-        if self.facing == 'up':
+        elif self.facing == 'up':
             self.y_change -= ENEMY_SPEED
-            self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel_y:
+            self.movement_loop_y -= 1
+            if self.movement_loop_y <= -self.max_travel_y:
                 self.facing = 'right'
 
-        if self.facing == 'down':
+        elif self.facing == 'down':
             self.y_change += ENEMY_SPEED
-            self.movement_loop += 1
-            if self.movement_loop >= self.max_travel_y:
+            self.movement_loop_y += 1
+            if self.movement_loop_y >= self.max_travel_y:
                 self.facing = 'left'
 
     def collide_blocks(self, direction):
