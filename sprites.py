@@ -32,12 +32,9 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.game.character_spritesheet.get_sprite(
             756, 127, self.width, self.height)
-        # self.image = self.game.character_spritesheet.get_sprite(
-        # 336, 503, self.width, self.height)
 
         self.image.set_colorkey(BLACK)
 
-        # elf.image.fill(RED)
         self.x_change = 0
         self.y_change = 0
 
@@ -213,8 +210,8 @@ class Enemy(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        self.x_change = 0.25
-        self.y_change = 0.25
+        self.x_change = 0
+        self.y_change = 0
         #self.facing = random.choice(['left', 'right', 'up', 'down'])
         self.facing = 'right'
         self.animation_loop = 1
@@ -231,13 +228,13 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
+        self.x_change = 0.5
+        self.y_change = 0.5
         self.movement()
         self.rect.x += self.x_change
         self.collide_blocks('x')
         self.rect.y += self.y_change
         self.collide_blocks('y')
-        self.x_change = 0.25
-        self.y_change = 0.25
 
     def movement(self):
         if self.facing == 'left':
