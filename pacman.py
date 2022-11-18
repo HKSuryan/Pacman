@@ -138,7 +138,7 @@ class game:
                 intro = False
 
             self.screen.blit(self.intro_background, (375, 240))
-            # self.screen.blit(title,title_rect)
+            # self.screen.blit(title,title_rect)v
             self.screen.blit(play_button.image, play_button.rect)
             self.clock.tick(FPS)
             pygame.display.update()
