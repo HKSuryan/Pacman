@@ -32,12 +32,9 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.game.character_spritesheet.get_sprite(
             756, 127, self.width, self.height)
-        # self.image = self.game.character_spritesheet.get_sprite(
-        # 336, 503, self.width, self.height)
 
         self.image.set_colorkey(BLACK)
 
-        # elf.image.fill(RED)
         self.x_change = 0
         self.y_change = 0
 
@@ -95,6 +92,9 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.top-self.rect.height
                 if self.y_change < 0:
                     self.rect.y = hits[0].rect.bottom
+
+    def collide_coin(self):
+        hits = pygame.spritecollide(self, self.game.coins, False)
 
     def animate(self):
         down_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
@@ -213,11 +213,12 @@ class Enemy(pygame.sprite.Sprite):
         self.x_change = 0
         self.y_change = 0
         #self.facing = random.choice(['left', 'right', 'up', 'down'])
-        self.facing = 'left'
+        self.facing = 'right'
         self.animation_loop = 1
-        self.movement_loop = 0
-        self.max_travel_x = random.randint(15, 30)
-        self.max_travel_y = random.randint(15, 30)
+        self.movement_loop_x = 0
+        self.movement_loop_y = 0
+        self.max_travel_x = 90
+        self.max_travel_y = 90
         self.image = self.game.enemy_spritesheet.get_sprite(
             32, 41, self.width, self.height)
         self.image.set_colorkey(BLACK)
@@ -227,37 +228,55 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
+        self.x_change = 0.5
+        self.y_change = 0.5
         self.movement()
         self.rect.x += self.x_change
+        self.collide_blocks('x')
         self.rect.y += self.y_change
-
-        self.x_change = 0
-        self.y_change = 0
+        self.collide_blocks('y')
 
     def movement(self):
         if self.facing == 'left':
             self.x_change -= ENEMY_SPEED
-            self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel_x:
+            self.movement_loop_x -= 1
+            if self.movement_loop_x <= -self.max_travel_x:
                 self.facing = 'up'
 
-        if self.facing == 'right':
+        elif self.facing == 'right':
             self.x_change += ENEMY_SPEED
-            self.movement_loop += 1
-            if self.movement_loop >= self.max_travel_x:
+            self.movement_loop_x += 1
+            if self.movement_loop_x >= self.max_travel_x:
                 self.facing = 'down'
 
-        if self.facing == 'up':
+        elif self.facing == 'up':
             self.y_change -= ENEMY_SPEED
-            self.movement_loop -= 1
-            if self.movement_loop <= -self.max_travel_y:
+            self.movement_loop_y -= 1
+            if self.movement_loop_y <= -self.max_travel_y:
                 self.facing = 'right'
 
-        if self.facing == 'down':
+        elif self.facing == 'down':
             self.y_change += ENEMY_SPEED
-            self.movement_loop += 1
-            if self.movement_loop >= self.max_travel_y:
+            self.movement_loop_y += 1
+            if self.movement_loop_y >= self.max_travel_y:
                 self.facing = 'left'
+
+    def collide_blocks(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            if hits:
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left-self.rect.width
+                if self.x_change < 0:
+                    self.rect.x = hits[0].rect.right
+
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            if hits:
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top-self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
 
 
 class Button:
@@ -290,3 +309,23 @@ class Button:
                 return True
             return False
         return False
+
+
+class Coins(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = COIN_LAYER
+        self.groups = self.game.all_sprites, self.game.coins
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.coin_spritesheet.get_sprite(
+            460, 213, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
