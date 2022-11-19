@@ -37,7 +37,7 @@ class game:
         self.terrain_spritesheet = Spritesheet('walls.jpg.webp')
         self.coin_spritesheet = Spritesheet('pacsp.png')
         self.intro_background = pygame.image.load('images.jpeg')
-        self.go_background = pygame.image.load('endscreen1.jpeg')
+        #self.go_background = pygame.image.load('endscreen1.jpeg')
 
     def createTilemap(self):
         for i, row in enumerate(tilemap):
