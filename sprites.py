@@ -212,7 +212,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.x_change = 0
         self.y_change = 0
-        #self.facing = random.choice(['left', 'right', 'up', 'down'])
+
         self.facing = 'right'
         self.animation_loop = 1
         self.movement_loop_x = 0

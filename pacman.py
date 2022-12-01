@@ -115,7 +115,7 @@ class game:
             if restart_button.is_pressed(mouse_pos, mouse_pressed):
                 self.new()
                 self.main()
-            #self.screen.blit(self.go_background, (0, 0))
+
             self.screen.fill(BLACK)
             self.screen.blit(text, text_rect)
             self.screen.blit(restart_button.image, restart_button.rect)
@@ -138,7 +138,7 @@ class game:
                 intro = False
 
             self.screen.blit(self.intro_background, (375, 240))
-            # self.screen.blit(title,title_rect)v
+
             self.screen.blit(play_button.image, play_button.rect)
             self.clock.tick(FPS)
             pygame.display.update()
