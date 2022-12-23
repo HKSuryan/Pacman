@@ -50,6 +50,7 @@ class game:
                     Walls(self, j, i)
                 if column == "E":
                     Enemy(self, j, i)
+                    Coins(self, j, i)
                 if column == "C":
                     Coins(self, j, i)
 

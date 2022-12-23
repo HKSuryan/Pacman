@@ -14,25 +14,25 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 FPS = 60
-
+SCORE = 0
 tilemap = [
     'LLLLLLLLLDLLLLLLLLLLLLLLL',
-    'LBBBBB..B.B..BBBBBL.....L',
-    'LBE..B..B.B..BE..BL.....L',
-    'LB.B.B..B.B..B.B.BL.....L',
-    'LB...B.......B...BL.....L',
+    'LBBBBB..BCB..BBBBBL.....L',
+    'LBECCB..BCB..BECCBL.....L',
+    'LBCBCB..BCB..BCBCBL.....L',
+    'LBCCCB.......BCCCBL.....L',
     'LBB.BB.BBBBB.BB.BBL.....L',
-    'L.................L.....L',
-    'L....B.BBBBB.B....L.....L',
-    'LBBB.B.BCECB.B.BBBL.....L',
-    'D.P..B.BCBCB.B....D.....L',
-    'LBBB.B.BC.CB.B.BBBL.....L',
-    'L....B.BB.BB.B....L.....L',
-    'L.................L.....L',
+    'L...C..CCCCC..C...L.....L',
+    'L...CB.BBBBB.BC...L.....L',
+    'LBBBCB.BCECB.BCBBBL.....L',
+    'D.PCCB.BCBCB.BCCCCD.....L',
+    'LBBBCB.BC.CB.BCBBBL.....L',
+    'L...CB.BB.BB.BC...L.....L',
+    'L...C..CCCCC......L.....L',
     'LBB.BB.BBBBB.BB.BBL.....L',
-    'LBE..B.......BE..BL.....L',
-    'LB.B.B..B.B..BCBCBL.....L',
-    'LB.CCB..B.B..B.CCBL.....L',
-    'LBBBBB..B.B..BBBBBL.....L',
+    'LBECCB.......BE..BL.....L',
+    'LBCBCB..BCB..BCBCBL.....L',
+    'LBCCCB..BCB..B.CCBL.....L',
+    'LBBBBB..BCB..BBBBBL.....L',
     'LLLLLLLLLDLLLLLLLLLLLLLLL'
 ]

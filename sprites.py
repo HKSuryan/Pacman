@@ -21,6 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self._layer = PLAYER_LAYER
         self.groups = self.game.all_sprites
+
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.x = x*TILESIZE
         self.y = y*TILESIZE
@@ -46,6 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.movement()
         self.animate()
         self.collide_enemy()
+        self.collide_coin()
 
         self.rect.x += self.x_change
         self.collide_blocks('x')
@@ -94,7 +96,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.bottom
 
     def collide_coin(self):
-        hits = pygame.spritecollide(self, self.game.coins, False)
+        hits = pygame.sprite.spritecollide(self, self.game.coins, False)
+        if hits:
+            #SCORE += 1
+            #Coins(self, self.j, self.i)
+            pass
 
     def animate(self):
         down_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
@@ -329,3 +335,6 @@ class Coins(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+    '''def __del__(self):
+        print('Destructor called, Employee deleted.')'''
