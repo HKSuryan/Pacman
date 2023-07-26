@@ -17,6 +17,7 @@ class Spritesheet:
 
 
 class Player(pygame.sprite.Sprite):
+    SCORES = 0
     def __init__(self, game, x, y):
         self.game = game
         self._layer = PLAYER_LAYER
@@ -96,11 +97,13 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.bottom
 
     def collide_coin(self):
-        hits = pygame.sprite.spritecollide(self, self.game.coins, False)
-        if hits:
-            #SCORE += 1
-            #Coins(self, self.j, self.i)
-            pass
+        for x in self.game.coins:
+            hits = pygame.sprite.collide_circle_ratio(0.5)(self, x)
+            if hits:
+                self.SCORES += 1
+                x.kill()
+                break
+
 
     def animate(self):
         down_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
@@ -335,6 +338,11 @@ class Coins(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+    '''def collide_player():
+            Coins.kill()
+            #Coins(self, self.j, self.i)
+            pass'''
 
     '''def __del__(self):
         print('Destructor called, Employee deleted.')'''

@@ -61,7 +61,7 @@ class game:
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
         self.walls = pygame.sprite.LayeredUpdates()
-        self.attacks = pygame.sprite.LayeredUpdates()
+        self.player = pygame.sprite.LayeredUpdates()
         self.coins = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 

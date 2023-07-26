@@ -14,7 +14,7 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 FPS = 60
-SCORE = 0
+SCORES = 0
 tilemap = [
     'LLLLLLLLLDLLLLLLLLLLLLLLL',
     'LBBBBB..BCB..BBBBBL.....L',
