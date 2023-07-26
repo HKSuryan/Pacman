@@ -1,9 +1,11 @@
 from turtle import width
 import pygame
 from config import *
+from tarfile import BLOCKSIZE
 from pygame.locals import *
 from sprites import *
 import math
+import sys
 import random
 
 
@@ -54,6 +56,7 @@ class Player(pygame.sprite.Sprite):
         text_rect = text.get_rect(center=(650, 300))
         self.screen.blit(text, text_rect)
         pygame.display.update()
+
         self.movement()
         self.animate()
         self.collide_enemy()
@@ -72,15 +75,28 @@ class Player(pygame.sprite.Sprite):
     def movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
+            if (self.rect.x <= 16 and self.rect.y <= 270):
+                self.rect.x = 524
+                self.rect.y = 270
+                #self.game.help()
             self.x_change -= PLAYER_SPEED
             self.facing = 'left'
         if keys[pygame.K_RIGHT]:
+            if (self.rect.x >= 524 and self.rect.y <= 270):
+                self.rect.x = 16
+                self.rect.y = 270
             self.x_change += PLAYER_SPEED
             self.facing = 'right'
         if keys[pygame.K_UP]:
+            if (self.rect.x <= 270 and self.rect.y <= 12):
+                self.rect.x = 270
+                self.rect.y = 526
             self.y_change -= PLAYER_SPEED
             self.facing = 'up'
         if keys[pygame.K_DOWN]:
+            if (self.rect.x >= 270 and self.rect.y >= 526):
+                self.rect.x = 270
+                self.rect.y = 12
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
 
