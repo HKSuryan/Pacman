@@ -53,6 +53,8 @@ class game:
                     Coins(self, j, i)
                 if column == "C":
                     Coins(self, j, i)
+                if column == "D":
+                    Door(self,i,j)
 
     def new(self):
 
@@ -63,6 +65,7 @@ class game:
         self.walls = pygame.sprite.LayeredUpdates()
         self.player = pygame.sprite.LayeredUpdates()
         self.coins = pygame.sprite.LayeredUpdates()
+        self.door = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 
     def text(self, text, o, p, size, col):

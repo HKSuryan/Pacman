@@ -1,6 +1,8 @@
 from turtle import width
 import pygame
 from config import *
+from pygame.locals import *
+from sprites import *
 import math
 import random
 
@@ -20,8 +22,11 @@ class Player(pygame.sprite.Sprite):
     SCORES = 0
     def __init__(self, game, x, y):
         self.game = game
+        self.screen = pygame.display.set_mode(
+            (750, 570), pygame.RESIZABLE)
         self._layer = PLAYER_LAYER
         self.groups = self.game.all_sprites
+        self.font = pygame.font.SysFont("algerian", 30)
 
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.x = x*TILESIZE
@@ -45,10 +50,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
+        text = self.font.render('SCORE = '+str(self.SCORES), True, WHITE)
+        text_rect = text.get_rect(center=(650, 300))
+        self.screen.blit(text, text_rect)
+        pygame.display.update()
         self.movement()
         self.animate()
         self.collide_enemy()
         self.collide_coin()
+
+
 
         self.rect.x += self.x_change
         self.collide_blocks('x')
@@ -339,10 +350,22 @@ class Coins(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
-    '''def collide_player():
-            Coins.kill()
-            #Coins(self, self.j, self.i)
-            pass'''
 
-    '''def __del__(self):
-        print('Destructor called, Employee deleted.')'''
+class Door(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = DOOR_LAYER
+        self.groups = self.game.all_sprites, self.game.door
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.terrain_spritesheet.get_sprite(
+            250, 100, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
