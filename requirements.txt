@@ -1,0 +1,8 @@
+autopep8==1.6.0
+config==0.5.1
+numpy==1.22.0
+Pillow==9.2.0
+pycodestyle==2.8.0
+pygame==2.1.2
+sprites==1.480
+toml==0.10.2

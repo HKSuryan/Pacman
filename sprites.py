@@ -1,7 +1,11 @@
 from turtle import width
 import pygame
 from config import *
+from tarfile import BLOCKSIZE
+from pygame.locals import *
+from sprites import *
 import math
+import sys
 import random
 
 
@@ -17,10 +21,15 @@ class Spritesheet:
 
 
 class Player(pygame.sprite.Sprite):
+    SCORES = 0
     def __init__(self, game, x, y):
         self.game = game
+        self.screen = pygame.display.set_mode(
+            (750, 570), pygame.RESIZABLE)
         self._layer = PLAYER_LAYER
         self.groups = self.game.all_sprites
+        self.font = pygame.font.SysFont("algerian", 30)
+
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.x = x*TILESIZE
         self.y = y*TILESIZE
@@ -43,9 +52,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
+        text = self.font.render('SCORE = '+str(self.SCORES), True, WHITE)
+        text_rect = text.get_rect(center=(650, 300))
+        self.screen.blit(text, text_rect)
+        pygame.display.update()
+
         self.movement()
         self.animate()
         self.collide_enemy()
+        self.collide_coin()
+
+
 
         self.rect.x += self.x_change
         self.collide_blocks('x')
@@ -58,15 +75,28 @@ class Player(pygame.sprite.Sprite):
     def movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
+            if (self.rect.x <= 16 and self.rect.y <= 270):
+                self.rect.x = 524
+                self.rect.y = 270
+                #self.game.help()
             self.x_change -= PLAYER_SPEED
             self.facing = 'left'
         if keys[pygame.K_RIGHT]:
+            if (self.rect.x >= 524 and self.rect.y <= 270):
+                self.rect.x = 16
+                self.rect.y = 270
             self.x_change += PLAYER_SPEED
             self.facing = 'right'
         if keys[pygame.K_UP]:
+            if (self.rect.x <= 270 and self.rect.y <= 12):
+                self.rect.x = 270
+                self.rect.y = 526
             self.y_change -= PLAYER_SPEED
             self.facing = 'up'
         if keys[pygame.K_DOWN]:
+            if (self.rect.x >= 270 and self.rect.y >= 526):
+                self.rect.x = 270
+                self.rect.y = 14
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
 
@@ -94,7 +124,13 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = hits[0].rect.bottom
 
     def collide_coin(self):
-        hits = pygame.spritecollide(self, self.game.coins, False)
+        for x in self.game.coins:
+            hits = pygame.sprite.collide_circle_ratio(0.5)(self, x)
+            if hits:
+                self.SCORES += 1
+                x.kill()
+                break
+
 
     def animate(self):
         down_animations = [self.game.character_spritesheet.get_sprite(0, 0, self.width, self.height),
@@ -209,7 +245,7 @@ class Enemy(pygame.sprite.Sprite):
         self.y = y*TILESIZE
         self.width = TILESIZE
         self.height = TILESIZE
-
+        
         self.x_change = 0
         self.y_change = 0
 
@@ -237,29 +273,30 @@ class Enemy(pygame.sprite.Sprite):
         self.collide_blocks('y')
 
     def movement(self):
+        l =['up','left','right','down']
         if self.facing == 'left':
             self.x_change -= ENEMY_SPEED
-            self.movement_loop_x -= 1
+            self.movement_loop_x -= 3
             if self.movement_loop_x <= -self.max_travel_x:
-                self.facing = 'up'
+                self.facing = random.choice(l)
 
         elif self.facing == 'right':
             self.x_change += ENEMY_SPEED
-            self.movement_loop_x += 1
+            self.movement_loop_x += 3
             if self.movement_loop_x >= self.max_travel_x:
-                self.facing = 'down'
+                self.facing = random.choice(l)
 
         elif self.facing == 'up':
             self.y_change -= ENEMY_SPEED
-            self.movement_loop_y -= 1
+            self.movement_loop_y -= 3
             if self.movement_loop_y <= -self.max_travel_y:
-                self.facing = 'right'
+                self.facing = random.choice(l)
 
         elif self.facing == 'down':
             self.y_change += ENEMY_SPEED
-            self.movement_loop_y += 1
+            self.movement_loop_y += 3
             if self.movement_loop_y >= self.max_travel_y:
-                self.facing = 'left'
+                self.facing = random.choice(l)
 
     def collide_blocks(self, direction):
         if direction == "x":
@@ -325,6 +362,26 @@ class Coins(pygame.sprite.Sprite):
 
         self.image = self.game.coin_spritesheet.get_sprite(
             460, 213, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+
+class Door(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = DOOR_LAYER
+        self.groups = self.game.all_sprites, self.game.door
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.terrain_spritesheet.get_sprite(
+            250, 100, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x

@@ -18,6 +18,7 @@ blue = (0, 0, 255)
 Black = (0, 0, 0)
 
 
+
 class game:
 
     def __init__(self):
@@ -50,9 +51,17 @@ class game:
                     Walls(self, j, i)
                 if column == "E":
                     Enemy(self, j, i)
+                    Coins(self, j, i)
                 if column == "C":
                     Coins(self, j, i)
-
+                if column == "D":
+                    Door(self,i,j)
+    def help(self):
+        self.playing = True
+        self.player = pygame.sprite.LayeredUpdates()
+        Player(self,400,300)
+        print("Hello")
+        pygame.display.update()
     def new(self):
 
         self.playing = True
@@ -60,8 +69,9 @@ class game:
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
         self.walls = pygame.sprite.LayeredUpdates()
-        self.attacks = pygame.sprite.LayeredUpdates()
+        self.player = pygame.sprite.LayeredUpdates()
         self.coins = pygame.sprite.LayeredUpdates()
+        self.door = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 
     def text(self, text, o, p, size, col):
