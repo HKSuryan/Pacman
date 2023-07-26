@@ -8,7 +8,7 @@ GROUND_LAYER = 1
 DOOR_LAYER = 4
 COIN_LAYER = 3
 TILESIZE = 30
-ENEMY_SPEED = 2
+ENEMY_SPEED = 3
 PLAYER_SPEED = 2
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
@@ -31,9 +31,9 @@ tilemap = [
     'L...CB.BB.BB.BC...L.....L',
     'L...C..CCCCC......L.....L',
     'LBB.BB.BBBBB.BB.BBL.....L',
-    'LBECCB.......BE..BL.....L',
+    'LBECCB.......BECCBL.....L',
     'LBCBCB..BCB..BCBCBL.....L',
-    'LBCCCB..BCB..B.CCBL.....L',
+    'LBCCCB..BCB..BCCCBL.....L',
     'LBBBBB..BCB..BBBBBL.....L',
     'LLLLLLLLLDLLLLLLLLLLLLLLL'
 ]

@@ -96,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             if (self.rect.x >= 270 and self.rect.y >= 526):
                 self.rect.x = 270
-                self.rect.y = 12
+                self.rect.y = 14
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
 
@@ -273,29 +273,30 @@ class Enemy(pygame.sprite.Sprite):
         self.collide_blocks('y')
 
     def movement(self):
+        l =['up','left','right','down']
         if self.facing == 'left':
             self.x_change -= ENEMY_SPEED
-            self.movement_loop_x -= 1
+            self.movement_loop_x -= 3
             if self.movement_loop_x <= -self.max_travel_x:
-                self.facing = 'up'
+                self.facing = random.choice(l)
 
         elif self.facing == 'right':
             self.x_change += ENEMY_SPEED
-            self.movement_loop_x += 1
+            self.movement_loop_x += 3
             if self.movement_loop_x >= self.max_travel_x:
-                self.facing = 'down'
+                self.facing = random.choice(l)
 
         elif self.facing == 'up':
             self.y_change -= ENEMY_SPEED
-            self.movement_loop_y -= 1
+            self.movement_loop_y -= 3
             if self.movement_loop_y <= -self.max_travel_y:
-                self.facing = 'right'
+                self.facing = random.choice(l)
 
         elif self.facing == 'down':
             self.y_change += ENEMY_SPEED
-            self.movement_loop_y += 1
+            self.movement_loop_y += 3
             if self.movement_loop_y >= self.max_travel_y:
-                self.facing = 'left'
+                self.facing = random.choice(l)
 
     def collide_blocks(self, direction):
         if direction == "x":
