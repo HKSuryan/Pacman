@@ -55,7 +55,11 @@ class game:
                 if column == "C":
                     Coins(self, j, i)
                 if column == "D":
-                    Door(self,i,j)
+                    Door(self,j,i)
+                if column == "F":
+                    FinalDoor(self,j,i)
+                if column == "Z":
+                    Diamond(self,j,i)
     def help(self):
         self.playing = True
         self.player = pygame.sprite.LayeredUpdates()
@@ -65,6 +69,7 @@ class game:
     def new(self):
 
         self.playing = True
+        self.gw = True
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.blocks = pygame.sprite.LayeredUpdates()
         self.enemies = pygame.sprite.LayeredUpdates()
@@ -72,6 +77,8 @@ class game:
         self.player = pygame.sprite.LayeredUpdates()
         self.coins = pygame.sprite.LayeredUpdates()
         self.door = pygame.sprite.LayeredUpdates()
+        self.finaldoor = pygame.sprite.LayeredUpdates()
+        self.diamond = pygame.sprite.LayeredUpdates()
         self.createTilemap()
 
     def text(self, text, o, p, size, col):
@@ -104,12 +111,13 @@ class game:
             self.update()
             self.draw()
 
-    def gameover(self):
-        text = self.font.render('GAME OVER', True, WHITE)
+    def gameover(self,score):
+        text = self.font.render('GAME OVER YOU LOST Score = '+str(score), True, WHITE)
         text_rect = text.get_rect(center=(WIN_WIDTH/2, WIN_HEIGHT/2))
 
         restart_button = Button(10, WIN_HEIGHT-60, 120,
                                 50, WHITE, BLACK, 'RESTART', 30)
+        self.clock.tick(FPS)
 
         for sprite in self.all_sprites:
             sprite.kill()
@@ -123,13 +131,54 @@ class game:
             mouse_pressed = pygame.mouse.get_pressed()
 
             if restart_button.is_pressed(mouse_pos, mouse_pressed):
-                self.new()
-                self.main()
+                self.playing = True
+                self.gw = True
+                #self.new()
+                #self.main()
+                g = game()
+                g.new()
+                while g.running:
+
+                    g.main()
+                pygame.quit()
 
             self.screen.fill(BLACK)
             self.screen.blit(text, text_rect)
             self.screen.blit(restart_button.image, restart_button.rect)
-            self.clock.tick(FPS)
+            #self.clock.tick(FPS)
+            pygame.display.update()
+    def win(self,score):
+        text = self.font.render('YOU WIN : '+str(score), True, RED)
+        text_rect = text.get_rect(center=(WIN_WIDTH/2, WIN_HEIGHT/2))
+
+        restart_button = Button(10, WIN_HEIGHT-60, 120,
+                                50, WHITE, BLACK, 'RESTART', 30)
+        self.clock.tick(FPS)
+
+        for sprite in self.all_sprites:
+            sprite.kill()
+
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
+
+            if restart_button.is_pressed(mouse_pos, mouse_pressed):
+                self.playing = True
+                g = game()
+                g.intro_screen()
+                g.new()
+                while g.running:
+
+                    g.main()
+                pygame.quit()
+
+            self.screen.fill(BLACK)
+            self.screen.blit(text, text_rect)
+            self.screen.blit(restart_button.image, restart_button.rect)
             pygame.display.update()
 
     def intro_screen(self):
@@ -161,6 +210,5 @@ while g.running:
 
     g.main()
 
-    pygame.display.update()
-    g.gameover()
+    
 pygame.quit()

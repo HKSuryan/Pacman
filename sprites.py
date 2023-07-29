@@ -56,18 +56,25 @@ class Player(pygame.sprite.Sprite):
         text_rect = text.get_rect(center=(650, 300))
         self.screen.blit(text, text_rect)
         pygame.display.update()
+        if self.SCORES>50:
+            for i in self.game.finaldoor:
+                i.kill()
 
         self.movement()
         self.animate()
-        self.collide_enemy()
+        self.collide_diamond()
         self.collide_coin()
+        self.collide_enemy()
+
 
 
 
         self.rect.x += self.x_change
         self.collide_blocks('x')
+        self.collide_finaldoor('x')
         self.rect.y += self.y_change
         self.collide_blocks('y')
+        self.collide_finaldoor('y')
 
         self.x_change = 0
         self.y_change = 0
@@ -101,10 +108,22 @@ class Player(pygame.sprite.Sprite):
             self.facing = 'down'
 
     def collide_enemy(self):  # Killing enemies
-        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
-        if hits:
-            self.kill()
-            self.game.playing = False
+        for i in self.game.enemies:
+            hits = pygame.sprite.collide_circle_ratio(0.5)(self, i)
+            if hits:
+                self.kill()
+                self.game.playing = False
+                self.game.gameover(self.SCORES)
+                #return self.SCORES,'y'
+
+    def collide_diamond(self):
+        for x in self.game.diamond:
+            hits = pygame.sprite.collide_circle_ratio(0.5)(self, x)
+            if hits:
+                x.kill()
+                self.game.playing = False
+                self.game.win(self.SCORES)
+
 
     def collide_blocks(self, direction):
         if direction == "x":
@@ -117,6 +136,23 @@ class Player(pygame.sprite.Sprite):
 
         if direction == "y":
             hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
+            if hits:
+                if self.y_change > 0:
+                    self.rect.y = hits[0].rect.top-self.rect.height
+                if self.y_change < 0:
+                    self.rect.y = hits[0].rect.bottom
+
+    def collide_finaldoor(self, direction):
+        if direction == "x":
+            hits = pygame.sprite.spritecollide(self, self.game.finaldoor, False)
+            if hits:
+                if self.x_change > 0:
+                    self.rect.x = hits[0].rect.left-self.rect.width
+                if self.x_change < 0:
+                    self.rect.x = hits[0].rect.right
+
+        if direction == "y":
+            hits = pygame.sprite.spritecollide(self, self.game.finaldoor, False)
             if hits:
                 if self.y_change > 0:
                     self.rect.y = hits[0].rect.top-self.rect.height
@@ -381,8 +417,48 @@ class Door(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         self.image = self.game.terrain_spritesheet.get_sprite(
-            250, 100, self.width, self.height)
+            240, 100, self.width, self.height)
 
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+class FinalDoor(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = DOOR_LAYER
+        self.groups = self.game.all_sprites, self.game.finaldoor
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.terrain_spritesheet.get_sprite(
+            340, 480, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Diamond(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.game = game
+        self._layer = DOOR_LAYER
+        self.groups = self.game.all_sprites, self.game.diamond
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.x = x*TILESIZE
+        self.y = y*TILESIZE
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        self.image = self.game.enemy_spritesheet.get_sprite(
+            500.75, 300, self.width, self.height)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+
