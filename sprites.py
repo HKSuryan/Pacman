@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         text_rect = text.get_rect(center=(650, 300))
         self.screen.blit(text, text_rect)
         pygame.display.update()
-        if self.SCORES>50:
+        if self.SCORES>70:
             for i in self.game.finaldoor:
                 i.kill()
 
@@ -291,8 +291,12 @@ class Enemy(pygame.sprite.Sprite):
         self.movement_loop_y = 0
         self.max_travel_x = 90
         self.max_travel_y = 90
-        self.image = self.game.enemy_spritesheet.get_sprite(
-            32, 41, self.width, self.height)
+        l = [self.game.enemy_spritesheet.get_sprite(
+            32, 41, self.width, self.height),self.game.enemy_spritesheet.get_sprite(
+            118, 41, self.width, self.height),self.game.enemy_spritesheet.get_sprite(
+            203, 41, self.width, self.height),self.game.enemy_spritesheet.get_sprite(
+            245, 41, self.width, self.height)]
+        self.image = random.choice(l)
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()
@@ -445,7 +449,7 @@ class FinalDoor(pygame.sprite.Sprite):
 class Diamond(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         self.game = game
-        self._layer = DOOR_LAYER
+        self._layer = COIN_LAYER
         self.groups = self.game.all_sprites, self.game.diamond
         pygame.sprite.Sprite.__init__(self, self.groups)
 
